@@ -1,0 +1,44 @@
+# OS / system files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.cursor/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+
+# General
+coverage/
+*.bak
+*.tmp
+
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Data files
+data/
+
+#DBT
+target/compiled/
+target/run/
