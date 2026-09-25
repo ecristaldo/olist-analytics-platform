@@ -27,7 +27,6 @@ __pycache__/
 .mypy_cache/
 
 # General
-coverage/
 *.bak
 *.tmp
 
@@ -39,6 +38,11 @@ env/
 # Data files
 data/
 
-#DBT
-target/compiled/
-target/run/
+# dbt
+target/
+dbt_packages/
+
+# Credentials
+*-credentials*.json
+*-service-account*.json
+olist-analytics-eduardo-*.json
