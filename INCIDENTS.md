@@ -17,3 +17,9 @@ Fix: allow_quoted_newlines=True, plus a row-count comparison against the local f
 Trade-off: slower loads for large files, because BigQuery can't parallelise as much
 What I didn't do: max_bad_records, because it would drop reviews silently
 
+## #3 - Local vs BQ row count
+Date: 30/09/2026
+What happened: the row check counted columns instead of rows
+Fix: saved the reader in a variable, took the header with next() 
+Trade-off: slower loads for large files, because BigQuery can't parallelise as much
+What I didn't do: max_bad_records, because it would drop reviews silently
