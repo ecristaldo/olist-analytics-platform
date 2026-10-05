@@ -8,7 +8,7 @@ renamed as (
 
     select
         CURRENCY as currency,
-        cast(TIME_PERIOD as date) as time_period_date,
+        cast(TIME_PERIOD as date) as rate_date,
         cast(OBS_VALUE as numeric) as rate_per_eur,
         OBS_STATUS as obs_status,
         _loaded_at
