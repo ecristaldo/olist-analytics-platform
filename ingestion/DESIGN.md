@@ -85,3 +85,10 @@ MERGE `olist-analytics-eduardo.raw.ecb_fx_rates` T
         WHEN NOT MATCHED THEN INSERT (`KEY`, `FREQ`, `CURRENCY`, `CURRENCY_DENOM`, `EXR_TYPE`, `EXR_SUFFIX`, `TIME_PERIOD`, `OBS_VALUE`, `OBS_STATUS`, `OBS_CONF`, `OBS_PRE_BREAK`, `OBS_COM`, `TIME_FORMAT`, `BREAKS`, `COLLECTION`, `COMPILING_ORG`, `DISS_ORG`, `DOM_SER_IDS`, `PUBL_ECB`, `PUBL_MU`, `PUBL_PUBLIC`, `UNIT_INDEX_BASE`, `COMPILATION`, `COVERAGE`, `DECIMALS`, `NAT_TITLE`, `SOURCE_AGENCY`, `SOURCE_PUB`, `TITLE`, `TITLE_COMPL`, `UNIT`, `UNIT_MULT`, `_loaded_at`, `_source_uri`) VALUES (S.`KEY`, S.`FREQ`, S.`CURRENCY`, S.`CURRENCY_DENOM`, S.`EXR_TYPE`, S.`EXR_SUFFIX`, S.`TIME_PERIOD`, S.`OBS_VALUE`, S.`OBS_STATUS`, S.`OBS_CONF`, S.`OBS_PRE_BREAK`, S.`OBS_COM`, S.`TIME_FORMAT`, S.`BREAKS`, S.`COLLECTION`, S.`COMPILING_ORG`, S.`DISS_ORG`, S.`DOM_SER_IDS`, S.`PUBL_ECB`, S.`PUBL_MU`, S.`PUBL_PUBLIC`, S.`UNIT_INDEX_BASE`, S.`COMPILATION`, S.`COVERAGE`, S.`DECIMALS`, S.`NAT_TITLE`, S.`SOURCE_AGENCY`, S.`SOURCE_PUB`, S.`TITLE`, S.`TITLE_COMPL`, S.`UNIT`, S.`UNIT_MULT`, S.`_loaded_at`, S.`_source_uri`)
 
 ```
+
+# ##dbt
+Init the dbt project: ```dbt init olist_dbt```
+
+freshness measured on TIME_PERIOD (the data) and not on _loaded_at (the pipeline), with 4 / 6 days and why
+freshness: null on Olist because it's a static snapshot (12h / 24h if it were live)
+CAST, not SAFE_CAST, because NULLs come from the loader and garbage should fail

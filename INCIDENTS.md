@@ -43,3 +43,9 @@ Cause: ECB took more than 30s to answer the probe and th retry handled on its ow
 Date: 04/10/2026
 What happened: today − 7 would leave gaps after downtime
 Fix: changed to a high-water mark, going to query BQ for latest date loaded and will set START_DATE = MAX(TIME_PERIOD) - 7 when calling the API
+
+## #8
+Date: 05/10/2026
+What happened: dbt could not locate the dataset.
+Cause: the `locaion` in profiles.yml was configured for 'EU' and not the correct `europe-west2`
+Fix: replace for Eu for europe-west2

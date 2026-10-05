@@ -1,0 +1,23 @@
+version: 2
+
+sources:
+  - name: ecb
+    schema: raw
+    config:
+      loaded_at_field: _loaded_at
+      freshness:
+        warn_after: {count: 4, period: day}
+        error_after: {count: 6, period: day}
+    tables:
+      - name: ecb_fx_rates
+        columns:
+          - name: KEY
+          - name: FREQ
+          - name: CURRENCY
+          - name: CURRENCY_DENOM
+          - name: TIME_PERIOD
+          - name: OBS_VALUE
+          - name: OBS_STATUS
+          - name: OBS_CONF
+          - name: OBS_PRE_BREAK
+          - name: _loaded_at

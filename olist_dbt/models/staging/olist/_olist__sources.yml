@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: olist
+    schema: raw
+    config:
+      loaded_at_field: "CAST(TIME_PERIOD AS TIMESTAMP)"
+      freshness: null # null here because it's a static snapshot. In production, with a live source, it would be X
+    tables:
+      - name: olist_customers
+      - name: olist_geolocation
+      - name: olist_order_items
+      - name: olist_order_payments
+      - name: olist_order_reviews
+      - name: olist_orders
+      - name: olist_product_category_name_translation
+      - name: olist_products
+      - name: olist_sellers

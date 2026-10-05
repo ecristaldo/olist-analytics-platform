@@ -19,3 +19,4 @@
   **The retry mechanism (--tables and --retry-failed)**
   **Catch KeyboardInterrupt to log interrupted before stoping. (For CTRL+C)**
   **record the BigQuery job_id in the log. Then a dead run can be matched to INFORMATION_SCHEMA.JOBS with a simple join, with no detective work.**
+  **Create ingestion/common.py with the shared functions and have both scripts import from it.**
