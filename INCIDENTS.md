@@ -13,6 +13,7 @@ Fix / decision: Created a file check in the script that will stop if a file is m
 ## #2 - BiqQuery ingestion error
 Date: 30/09/2026
 What happened: order_reviews load failed at row 774
+Cause: Row had a String field with line break causing to read as and new row.
 Fix: allow_quoted_newlines=True, plus a row-count comparison against the local file
 Trade-off: slower loads for large files, because BigQuery can't parallelise as much
 What I didn't do: max_bad_records, because it would drop reviews silently
@@ -23,3 +24,22 @@ What happened: the row check counted columns instead of rows
 Fix: saved the reader in a variable, took the header with next() 
 Trade-off: slower loads for large files, because BigQuery can't parallelise as much
 What I didn't do: max_bad_records, because it would drop reviews silently
+
+## #4 - Loaded empty file successfuly
+Date: 01/10/2026
+What happened: empty file loaded and erased a table.
+Fix: refuse files with 0 rows 
+
+## #5 - Force Stop script (CTRL+C)
+Date: 01/10/2026
+What happened: Python died, BigQuery finished the job. The log says geolocation never completed, but the table was replaced at 17:44:10, 9 seconds after started_at. The cleanup also ran: finally executed even with the Ctrl+C.
+
+## #6
+Date: 04/10/2026
+What happened: ReadTimeout from ECB API
+Cause: ECB took more than 30s to answer the probe and th retry handled on its own.
+
+## #7
+Date: 04/10/2026
+What happened: today − 7 would leave gaps after downtime
+Fix: changed to a high-water mark, going to query BQ for latest date loaded and will set START_DATE = MAX(TIME_PERIOD) - 7 when calling the API
