@@ -11,10 +11,10 @@ renamed as (
         customer_id,
         order_status,
         timestamp(order_purchase_timestamp, 'America/Sao_Paulo') as purchased_at,
-        cast(order_approved_at as timestamp) as approved_at,
-        cast(order_delivered_carrier_date as timestamp) as delivered_carrier_at,
-        cast(order_delivered_customer_date as timestamp) as delivered_customer_at,
-        date(cast(order_estimated_delivery_date as timestamp)) as estimated_delivery_date,
+        timestamp(order_approved_at, 'America/Sao_Paulo') as approved_at,
+        timestamp(order_delivered_carrier_date, 'America/Sao_Paulo') as delivered_carrier_at,
+        timestamp(order_delivered_customer_date, 'America/Sao_Paulo') as delivered_customer_at,
+        date(timestamp(order_estimated_delivery_date, 'America/Sao_Paulo')) as estimated_delivery_date,
         _loaded_at
 
     from source

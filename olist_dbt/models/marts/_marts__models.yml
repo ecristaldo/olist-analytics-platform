@@ -1,0 +1,60 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: >
+      One row per order, with items, freight and payments in BRL and the gross revenue
+      converted to GBP at the exchange rate of the day the order was placed (São Paulo time).
+      Orders without items or without payments are kept, with NULL amounts.
+    columns:
+      - name: order_id
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_olist__customers')
+                field: customer_id
+      - name: order_status
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['created', 'approved', 'invoiced', 'processing', 'shipped', 'delivered', 'unavailable', 'canceled']
+      - name: purchased_at
+        description: The moment the order was placed (UTC instant).
+        data_tests:
+          - not_null
+      - name: items_value_brl
+        description: Sum of item prices in BRL, without freight. NULL when the order has no items.
+      - name: freight_value_brl
+        description: Sum of freight in BRL. NULL when the order has no items.
+      - name: gross_revenue_brl
+        description: items_value_brl + freight_value_brl. NULL when the order has no items.
+      - name: paid_brl
+        description: Sum of all payments in BRL, vouchers included. NULL when the order has no payments.
+      - name: gbp_per_brl
+        description: >
+          Pounds per 1 Brazilian real on the day of purchase (São Paulo date), forward-filled
+          from the last ECB day on weekends and holidays. Not rounded.
+        data_tests:
+          - not_null
+      - name: gross_revenue_gbp
+        description: >
+          round(gross_revenue_brl * gbp_per_brl, 2). The only rounding in the model.
+          NULL when the order has no items.
+      - name: is_fx_forward_filled
+        description: True when the purchase date was not an ECB publication day.
+        data_tests:
+          - not_null
+      - name: purchase_date
+        description: Purchase date in São Paulo time, the key used for the FX join.
+      - name: item_count
+        description: Number of item rows on the order; 0 when it has none.
+      - name: payment_count
+        description: Number of payment rows on the order; 0 when it has none.
+      - name: main_payment_type
+        description: Payment type covering the most money in the order. NULL when there are no payments.

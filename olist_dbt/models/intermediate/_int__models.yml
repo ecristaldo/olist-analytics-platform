@@ -1,0 +1,64 @@
+version: 2
+
+models:
+  - name: int_fx__rates_daily
+    description: >
+      One row per calendar day (weekends and holidays included), from the first to the
+      last ECB observation, with the GBP-per-BRL cross rate forward-filled from the last
+      real ECB publication day.
+    columns:
+      - name: rate_date
+        description: Every calendar day.
+        data_tests:
+          - unique
+          - not_null
+      - name: gbp_per_brl
+        description: >
+          Pounds per 1 Brazilian real = (GBP per EUR) / (BRL per EUR) on last_ecb_date.
+          About 0.20 in 2018.
+        data_tests:
+          - not_null
+      - name: last_ecb_date
+        description: Date of the real ECB observation this row's rate comes from.
+        data_tests:
+          - not_null
+      - name: is_forward_filled
+        description: True when rate_date is not an ECB publication day (weekends, holidays).
+        data_tests:
+          - not_null
+
+  - name: int_order_items__by_order
+    description: One row per order with the number of items, their value and the freight.
+    columns:
+      - name: order_id
+        data_tests:
+          - unique
+          - not_null
+      - name: item_count
+        description: Number of item rows (units) on the order.
+        data_tests:
+          - not_null
+      - name: items_value
+        description: Sum of item prices, without freight.
+      - name: freight_value
+        description: Sum of freight charged across the items.
+
+  - name: int_order_payments__by_order
+    description: One row per order with the total paid, the number of payments and the main payment type.
+    columns:
+      - name: order_id
+        data_tests:
+          - unique
+          - not_null
+      - name: total_paid
+        description: Sum of all payments on the order (vouchers included).
+        data_tests:
+          - not_null
+      - name: payment_count
+        description: Number of payment rows on the order.
+        data_tests:
+          - not_null
+      - name: main_payment_type
+        description: Payment type covering the most money on the order; ties go to the one used first.
+        data_tests:
+          - not_null

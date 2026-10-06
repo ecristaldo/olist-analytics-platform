@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: stg_ecb__fx_rates
+    description: One row per currency per ECB publication day (EUR reference rates).
+    data_tests:
+      # the grain: the same currency must not appear twice on the same day. A repeated load
+      # that slips past the MERGE would double-count here, and the cross rate would be wrong.
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - currency
+              - rate_date
+    columns:
+      - name: obs_status
+        description: ECB observation status flag. 'A' = normal value.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['A']

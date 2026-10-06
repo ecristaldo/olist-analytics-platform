@@ -47,5 +47,11 @@ Fix: changed to a high-water mark, going to query BQ for latest date loaded and 
 ## #8
 Date: 05/10/2026
 What happened: dbt could not locate the dataset.
-Cause: the `locaion` in profiles.yml was configured for 'EU' and not the correct `europe-west2`
+Cause: the `location` in profiles.yml was configured for 'EU' and not the correct `europe-west2`
 Fix: replace for Eu for europe-west2
+
+## #9
+Date: 06/10/2026
+What happened: Timestamps with mixed meanings caught by a test.
+Cause: The date filds in olist_orders are timestamps from Sao Paulo Brazil, 3 where set as Europe UTC.
+Fix: changed all to timestamps for Sao Paulo on stg_olist_orders.sql
