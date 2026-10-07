@@ -1,0 +1,9 @@
+# Google Cloud clients used by load_olist.py and load_fx.py
+google-cloud-bigquery==3.45.2
+google-cloud-storage==3.1.1   # <3.2: must stay compatible with dbt-bigquery in the shared local venv
+
+# HTTP client (ECB API)
+requests==2.34.2
+
+# Environment variables (.env)
+python-dotenv==1.2.3
