@@ -39,7 +39,7 @@ Date: 04/10/2026
 What happened: ReadTimeout from ECB API
 Cause: ECB took more than 30s to answer the probe and th retry handled on its own.
 
-## #7
+## #7 Rates with gaps on downtime
 Date: 04/10/2026
 What happened: today − 7 would leave gaps after downtime
 Fix: changed to a high-water mark, going to query BQ for latest date loaded and will set START_DATE = MAX(TIME_PERIOD) - 7 when calling the API
@@ -55,3 +55,9 @@ Date: 06/10/2026
 What happened: Timestamps with mixed meanings caught by a test.
 Cause: The date filds in olist_orders are timestamps from Sao Paulo Brazil, 3 where set as Europe UTC.
 Fix: changed all to timestamps for Sao Paulo on stg_olist_orders.sql
+
+## #10
+**Date**: 07/10/2026
+**What happened**: ENV drifted from Requirements.txt between 2 machines
+**Cause**: I moved from my laptop to my desktop mid-project. The desktop environment drifted from requirements.txt, which still pinned a storage client version that dbt-bigquery doesn't accept. Both machines ran fine, but the file described an environment that existed nowhere. The first CI run installed strictly from the file and the resolver failed. 
+**Fix**: pinned a compatible version, verified with pip check and a loader run, and split ingestion and dbt dependencies. Lesson: environments get built from the requirements file, never the other way round, and CI is what enforces that.
