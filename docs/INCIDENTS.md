@@ -39,7 +39,7 @@ Date: 04/10/2026
 What happened: ReadTimeout from ECB API
 Cause: ECB took more than 30s to answer the probe and th retry handled on its own.
 
-## #7
+## #7 Rates with gaps on downtime
 Date: 04/10/2026
 What happened: today − 7 would leave gaps after downtime
 Fix: changed to a high-water mark, going to query BQ for latest date loaded and will set START_DATE = MAX(TIME_PERIOD) - 7 when calling the API

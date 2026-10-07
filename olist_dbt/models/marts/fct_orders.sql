@@ -62,7 +62,7 @@ joined as (
         fx.is_forward_filled as is_fx_forward_filled
 
     from orders
-    inner join items
+    left join items
         on items.order_id = orders.order_id
     left join payments
         on payments.order_id = orders.order_id
