@@ -61,3 +61,9 @@ Fix: changed all to timestamps for Sao Paulo on stg_olist_orders.sql
 **What happened**: ENV drifted from Requirements.txt between 2 machines
 **Cause**: I moved from my laptop to my desktop mid-project. The desktop environment drifted from requirements.txt, which still pinned a storage client version that dbt-bigquery doesn't accept. Both machines ran fine, but the file described an environment that existed nowhere. The first CI run installed strictly from the file and the resolver failed. 
 **Fix**: pinned a compatible version, verified with pip check and a loader run, and split ingestion and dbt dependencies. Lesson: environments get built from the requirements file, never the other way round, and CI is what enforces that.
+
+## #11 Reconcilation gap with stallments
+**Date**: 08/10/2026
+**What happened**: I tried to explain a reconciliation gap with instalment interest, the check came back 0 for every order.
+**Cause**: An aggregate had slipped into a staging model, so a value column became a count of 1 on every row. Nothing failed, because the keys and relationships were all fine. I found it while testing a business hypothesis and got a result of exactly zero.
+**Fix**: In stg_olist__order_payments.sql I changed `COUNT(CAST(payment_installments as int64)) as payment_installments` to `CAST(payment_installments AS INT64) AS payment_installments` and removed the `GROUP BY`
